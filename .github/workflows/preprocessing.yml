@@ -8,6 +8,9 @@ on:
       - 'ObesityDataSet_raw_and_data_sinthetic.csv'  # trigger hanya jika dataset berubah
   workflow_dispatch:              # bisa trigger manual
 
+permissions:
+  contents: write 
+
 jobs:
   preprocessing:
     runs-on: ubuntu-latest
