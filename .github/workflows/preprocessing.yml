@@ -1,0 +1,44 @@
+name: Preprocessing Automation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'ObesityDataSet_raw.csv'  # trigger hanya jika dataset berubah
+  workflow_dispatch:              # bisa trigger manual
+
+jobs:
+  preprocessing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.7'
+
+      - name: Install Dependencies
+        run: |
+          pip install pandas numpy scikit-learn
+
+      - name: Run Preprocessing
+        run: |
+          python preprocessing/automate_Nama-siswa.py
+
+      - name: Upload Preprocessed Dataset
+        uses: actions/upload-artifact@v4
+        with:
+          name: ObesityDataSet_preprocessing
+          path: preprocessing/ObesityDataSet_preprocessing.csv
+
+      - name: Commit Preprocessed Dataset
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add preprocessing/ObesityDataSet_preprocessing.csv
+          git diff --staged --quiet || git commit -m "Auto: update preprocessed dataset"
+          git push
