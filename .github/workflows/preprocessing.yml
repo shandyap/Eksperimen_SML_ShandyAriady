@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'ObesityDataSet_raw.csv'  # trigger hanya jika dataset berubah
+      - 'ObesityDataSet_raw_and_data_sinthetic.csv'  # trigger hanya jika dataset berubah
   workflow_dispatch:              # bisa trigger manual
 
 jobs:
@@ -27,7 +27,7 @@ jobs:
 
       - name: Run Preprocessing
         run: |
-          python preprocessing/automate_Nama-siswa.py
+          python preprocessing/automate_ShandyAriady.py
 
       - name: Upload Preprocessed Dataset
         uses: actions/upload-artifact@v4
